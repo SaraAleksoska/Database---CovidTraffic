@@ -1,0 +1,77 @@
+1) за табела 'case'
+CREATE TABLE case_JSON(
+data JSON, 
+UID INT GENERATED ALWAYS AS (json_extract(data,  "$.UID"))
+);
+use covid;
+insert into case_JSON (data) 
+SELECT JSON_OBJECT('UID', UID, 'Date', Date, 
+'country_name', country_name, 'ISO3', ISO3, 'Confirmed', Confirmed, 'Recovered', Recovered, 
+'Deaths', Deaths)
+FROM covid.case;
+
+
+2) за табела 'country'
+CREATE TABLE country_JSON(
+data JSON, 
+UID INT GENERATED ALWAYS AS (json_extract(data, "$.UID"))
+);
+use covid;
+insert into country_JSON (data) 
+SELECT JSON_OBJECT('UID', UID, 'ISO2', ISO2, 'ISO3', ISO3, 'code3', code3, 
+'FIPS', FIPS, 'Admin2', Admin2, 'Province_State', Province_State, 'Country_Region', Country_Region, 
+'Latitute', Latitute, 'Longitute', Longitute, 'name', name, 'Population', Population)
+FROM covid.country;
+
+
+3) за табела 'statistics'
+CREATE TABLE statistics_JSON(
+data JSON, 
+UID INT GENERATED ALWAYS AS (json_extract(data, "$.UID"))
+);
+use covid;
+insert into statistics_JSON (data) 
+SELECT JSON_OBJECT('UID', UID, 'Date', Date, 'Confirmed', Confirmed, 
+'Recovered', Recovered, 'Deaths', Deaths, 'Increase_rate', Increase_rate)
+FROM covid.statistics;
+
+
+4) за табела 'testingall'
+CREATE TABLE testingall_JSON(
+data JSON, 
+UID INT GENERATED ALWAYS AS (json_extract(data, "$.UID"))
+);
+use covid;
+insert into testingall_JSON (data) SELECT JSON_OBJECT('UID', UID, 'Entity', Entity, 'Tested', Tested, 
+'ISO3', ISO3, 'Date', Date, 'Source_URL', Source_URL, 'Source_label', Source_label, 'Notes', Notes, 
+'Number_of_observations', Number_of_observations, 'Cumulative_total', Cumulative_total, 
+'Cumulative_total_per_thousand', Cumulative_total_per_thousand, 'Daily_change_in_cumulative_total', 
+Daily_change_in_cumulative_total, 'Daily_change_in_cumulative_total_per_thousand', 
+Daily_change_in_cumulative_total_per_thousand, '3day_rolling_mean_daily_change', 
+3day_rolling_mean_daily_change, '3day_rolling_mean_daily_change_per_thousand', 
+3day_rolling_mean_daily_change_per_thousand, 'General_source_label', General_source_label, 
+'General_source_URL', General_source_URL, 'Description', Description)
+FROM covid.testingall;
+
+
+5) за табела 'testinglatest'
+CREATE TABLE testinglatest_JSON(
+data JSON, 
+UID INT GENERATED ALWAYS AS (json_extract(data, "$.UID"))
+);
+use covid;
+insert into testinglatest_JSON (data) SELECT JSON_OBJECT('UID', UID, 'Entity', Entity, 'Tested', Tested, 
+'ISO3', ISO3, 'Datee', Datee, 'Source_URL', Source_URL, 'Source_label', Source_label, 'Notes', Notes, 
+'Cumulative_total', Cumulative_total, 'Daily_change_in_cumulative_total', Daily_change_in_cumulative_total,
+'Cumulative_total_per_thousand', Cumulative_total_per_thousand, 'Daily_change_in_cumulative_total_per_thousand', 
+Daily_change_in_cumulative_total_per_thousand, '3day_rolling_mean_daily_change', 
+3day_rolling_mean_daily_change, '3day_rolling_mean_daily_change_per_thousand', 
+3day_rolling_mean_daily_change_per_thousand)
+FROM covid.testinglatest;
+
+
+
+
+
+
+

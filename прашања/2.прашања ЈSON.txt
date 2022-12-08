@@ -1,0 +1,25 @@
+//Прво прашање
+SELECT JSON_OBJECT('name', name, 'ISO3', ISO3, 'Tested', Tested, 'max(suma)', max(suma))
+FROM prvo
+
+//Второ прашање
+SELECT JSON_OBJECT('ISO3', ISO3, 'Date', Date, 'Entity', Entity, 
+'MAX(Daily_change_in_cumulative_total_per_thousand)', MAX(Daily_change_in_cumulative_total_per_thousand))
+FROM testingall
+group by ISO3
+
+//Трето прашање
+SELECT JSON_OBJECT('UID', UID, 'Entity', Entity, 'Source_label', Source_label)	
+FROM testingall 
+WHERE Source_label LIKE '%Ministry%'
+
+//Четврто прашање
+SELECT JSON_OBJECT('ta.Entity', ta.Entity, 'ta.Tested', ta.Tested, 
+'ta.Cumulative_total', ta.Cumulative_total, 'c.Population', c.Population, 
+'ROUND(CAST((Cumulative_total * 100.0 / Population) AS FLOAT), 2)', 
+ROUND(CAST((Cumulative_total * 100.0 / Population) AS FLOAT), 2))
+FROM testingall as ta, country as c
+WHERE ta.Tested = ' tests performed ' 
+GROUP BY ta.Entity
+
+

@@ -1,0 +1,29 @@
+прво:
+-- CREATE view prvo as (	
+-- SELECT c.name, c.ISO3, ta.Tested, sum(ta.Number_of_observations) as suma
+-- FROM country as c
+-- JOIN testingall as ta ON c.ISO3 = ta.ISO3
+-- WHERE ta.Tested = ' tests performed '
+-- GROUP BY c.ISO3 );
+
+SELECT name, ISO3, Tested, max(suma) as suma
+FROM prvo
+
+
+второ:
+SELECT ISO3, Date, Entity, MAX(Daily_change_in_cumulative_total_per_thousand)  AS 'Maxx'
+FROM testingall
+group by ISO3
+
+
+трето:
+SELECT ta.UID, ta.Entity, ta.Source_label
+FROM testingall as ta
+WHERE ta.Source_label LIKE '%Ministry%'
+
+четврто:
+SELECT ta.Entity, ta.Tested, ta.Number_of_observations, c.Population, 
+ROUND(CAST((Number_of_observations * 100.0 / Population) AS FLOAT), 8) AS Percentage
+FROM testingall as ta, country as c
+WHERE ta.Tested = ' tests performed ' 
+GROUP BY ta.Entity

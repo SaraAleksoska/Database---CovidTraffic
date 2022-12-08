@@ -1,0 +1,19 @@
+Прашањата со JSON табели, со json_extract
+1)
+SELECT json_extract(data, "$.name"), json_extract(data, "$.ISO3"), json_extract(data, "$.Tested"), max(json_extract(data, "$.suma"))
+FROM prvo_json
+2)
+SELECT json_extract(data, "$.ISO3"), json_extract(data, "$.Date"), json_extract(data, "$.Entity"), 
+MAX(json_extract(data, "$.Daily_change_in_cumulative_total_per_thousand"))  AS 'Maxx'
+FROM testingall_json 
+group by json_extract(data, "$.ISO3");
+3)
+SELECT json_extract(data, "$.Entity"), json_extract(data, "$.Source_label")
+FROM testingall_json 
+WHERE json_extract(data, "$.Source_label") LIKE '%Ministry%'
+4)
+SELECT json_extract(ta.data, "$.Entity"), json_extract(ta.data, "$.Tested"), json_extract(ta.data, "$.Number_of_observations"), json_extract(c.data, "$.Population"), 
+ROUND(CAST((json_extract(ta.data, "$.Number_of_observations") * 100.0 / json_extract(c.data, "$.Population")) AS FLOAT), 8) AS Percentage
+FROM testingall_json as ta, country_json as c
+WHERE json_extract(ta.data, "$.Tested") = ' tests performed ' 
+GROUP BY json_extract(ta.data, "$.Entity")

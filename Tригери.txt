@@ -1,0 +1,214 @@
+1) Тригери за табела 'case'
+use covid;
+DELIMITER $$
+DROP TRIGGER IF EXISTS `caseJsonTrigger` $$
+CREATE TRIGGER `caseJsonTrigger`
+AFTER INSERT ON `case`
+FOR EACH ROW
+BEGIN
+INSERT INTO case_JSON (data)
+VALUES(JSON_OBJECT('UID', new.UID, 'Date', new.Date, 'country_name', new.country_name, 'ISO3', new.ISO3, 'Confirmed', new.Confirmed, 'Recovered', new.Recovered, 'Deaths', new.Deaths));
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS `caseJsonTrigger1` $$
+CREATE TRIGGER `caseJsonTrigger1`
+AFTER DELETE ON `case`
+FOR EACH ROW
+BEGIN
+DELETE FROM case_json
+WHERE UID = old.UID
+END 
+DELIMITER $$;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS caseJsonTriggerUpdate $$
+CREATE TRIGGER caseJsonTriggerUpdate
+AFTER UPDATE
+ON covid.case FOR EACH ROW
+BEGIN
+	UPDATE case_json 
+    SET 
+    data=JSON_OBJECT('UID', new.UID, 'Date', new.Date, 'country_name', new.country_name, 'ISO3', new.ISO3, 
+    'Confirmed', new.Confirmed, 'Recovered', new.Recovered, 'Deaths', new.Deaths)
+    WHERE UID=old.UID;
+	END $$
+DELIMITER ;
+
+
+2) Тригери за табела 'country'
+use covid;
+DELIMITER $$
+DROP TRIGGER IF EXISTS `countryJsonTrigger` $$
+CREATE TRIGGER `countryJsonTrigger`
+AFTER INSERT ON `country`
+FOR EACH ROW
+BEGIN
+INSERT INTO country_JSON (data)
+VALUES(JSON_OBJECT('UID', new.UID, 'ISO2', new.ISO2, 'ISO3', new.ISO3, 'code3', new.code3, 'FIPS', new.FIPS, 'Admin2', new.Admin2, 'Province_State', new.Province_State, 'Country_Region', new.Country_Region, 'Latitute', new.Latitute, 'Longitute', new.Longitute, 'name', new.name, 'Population', new.Population));
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS `countryJsonTrigger1` $$
+CREATE TRIGGER `countryJsonTrigger1`
+AFTER DELETE ON `country`
+FOR EACH ROW
+BEGIN
+DELETE FROM country_json
+WHERE UID = old.UID
+END 
+DELIMITER $$;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS countryJsonTriggerUpdate $$
+CREATE TRIGGER countryJsonTriggerUpdate
+AFTER UPDATE
+ON covid.country FOR EACH ROW
+BEGIN
+	UPDATE country_json 
+    SET 
+    data=JSON_OBJECT('UID', new.UID, 'ISO2', new.ISO2, 'ISO3', new.ISO3, 'code3', new.code3, 'FIPS', new.FIPS,
+    'Admin2', new.Admin2, 'Province_State', new.Province_State, 'Country_Region', new.Country_Region, 
+    'Latitute', new.Latitute, 'Longitute', new.Longitute, 'name', new.name, 'Population', new.Population)
+    WHERE UID=old.UID;
+	END $$
+DELIMITER ;
+
+
+3) Тригери за табела 'statistics'
+use covid;
+DELIMITER $$
+DROP TRIGGER IF EXISTS `statisticsJsonTrigger` $$
+CREATE TRIGGER `statisticsJsonTrigger`
+AFTER INSERT ON `statistics`
+FOR EACH ROW
+BEGIN
+INSERT INTO statistics_JSON (data)
+VALUES(JSON_OBJECT('UID', new.UID, 'Date', new.Date, 'Confirmed', new.Confirmed, 
+'Recovered', new.Recovered, 'Deaths', new.Deaths, 'Increase_rate', new.Increase_rate));
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS statisticsJsonTriggerDelete $$
+CREATE TRIGGER statisticsJsonTriggerDelete
+AFTER DELETE ON statistics
+FOR EACH ROW
+BEGIN
+DELETE FROM statistics_json
+WHERE UID = old.UID
+END 
+DELIMITER $$;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS statisticsJsonTriggerUpdate $$
+CREATE TRIGGER statisticsJsonTriggerUpdate
+AFTER UPDATE
+ON covid.statistics FOR EACH ROW
+BEGIN
+	UPDATE statistics_json 
+    SET 
+    data=JSON_OBJECT('UID', new.UID, 'Date', new.Date, 'Confirmed', new.Confirmed, 'Recovered', 
+    new.Recovered, 'Deaths', new.Deaths, 'Increase_rate', new.Increase_rate)
+    WHERE UID=old.UID;
+	END $$
+DELIMITER ;
+
+
+4) Тригери за табела 'testingall'
+use covid;
+DELIMITER $$
+DROP TRIGGER IF EXISTS `testingallJsonTrigger` $$
+CREATE TRIGGER `testingallJsonTrigger`
+AFTER INSERT ON `testingall`
+FOR EACH ROW
+BEGIN
+INSERT INTO testingall_JSON (data)
+VALUES(JSON_OBJECT('UID', new.UID, 'Entity', new.Entity, 'Tested', new.Tested, 
+'ISO3', new.ISO3, 'Date', new.Date, 'Source_URL', new.Source_URL, 'Source_label', new.Source_label, 'Notes', new.Notes, 
+'Number_of_observations', new.Number_of_observations, 'Cumulative_total', new.Cumulative_total, 
+'Cumulative_total_per_thousand', new.Cumulative_total_per_thousand, 'Daily_change_in_cumulative_total', 
+new.Daily_change_in_cumulative_total, 'Daily_change_in_cumulative_total_per_thousand', 
+new.Daily_change_in_cumulative_total_per_thousand, '3day_rolling_mean_daily_change', 3day_rolling_mean_daily_change, '3day_rolling_mean_daily_change_per_thousand', 
+3day_rolling_mean_daily_change_per_thousand, 'General_source_label', new.General_source_label, 
+'General_source_URL', new.General_source_URL, 'Description', new.Description));
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS testingallJsonTriggerDelete $$
+CREATE TRIGGER testingallJsonTriggerDelete
+AFTER DELETE ON testingall
+FOR EACH ROW
+BEGIN
+DELETE FROM testingall_json
+WHERE UID = old.UID
+END 
+DELIMITER $$;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS testallJsonTriggerUpdate $$
+CREATE TRIGGER testallJsonTriggerUpdate
+AFTER UPDATE
+ON testingall FOR EACH ROW
+BEGIN
+	UPDATE testingall_JSON 
+    SET 
+    data=JSON_OBJECT('UID', new.UID, 'Entity', new.Entity, 'Tested', new.Tested, 
+'ISO3', new.ISO3, 'Date', new.Date, 'Source_URL', new.Source_URL, 'Source_label', new.Source_label, 'Notes', new.Notes, 
+'Number_of_observations', new.Number_of_observations, 'Cumulative_total', new.Cumulative_total, 
+'Cumulative_total_per_thousand', new.Cumulative_total_per_thousand, 'Daily_change_in_cumulative_total', 
+new.Daily_change_in_cumulative_total, 'Daily_change_in_cumulative_total_per_thousand', 
+new.Daily_change_in_cumulative_total_per_thousand, 'General_source_label', new.General_source_label, 
+'General_source_URL', new.General_source_URL, 'Description', new.Description)
+	WHERE UID=old.UID;
+	END $$
+DELIMITER ;
+
+
+5) Тригери за табела 'testinglatest'
+use covid;
+DELIMITER $$
+DROP TRIGGER IF EXISTS `testinglatestJsonTrigger` $$
+CREATE TRIGGER `testinglatestJsonTrigger`
+AFTER INSERT ON `testinglatest`
+FOR EACH ROW
+BEGIN
+INSERT INTO testinglatest_JSON (data)
+VALUES(JSON_OBJECT('UID', new.UID, 'Entity', new.Entity, 'Tested', new.Tested, 
+'ISO3', new.ISO3, 'Datee', new.Datee, 'Source_URL', new.Source_URL, 'Source_label', new.Source_label, 'Notes', new.Notes, 
+'Cumulative_total', new.Cumulative_total, 'Daily_change_in_cumulative_total', new.Daily_change_in_cumulative_total, 'Cumulative_total_per_thousand', new.Cumulative_total_per_thousand, 'Daily_change_in_cumulative_total_per_thousand', 
+new.Daily_change_in_cumulative_total_per_thousand, '3day_rolling_mean_daily_change', 3day_rolling_mean_daily_change, '3day_rolling_mean_daily_change_per_thousand', 3day_rolling_mean_daily_change_per_thousand));
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS testinglatestJsonTriggerDelete $$
+CREATE TRIGGER testinglatestJsonTriggerDelete
+AFTER DELETE ON testinglatest
+FOR EACH ROW
+BEGIN
+DELETE FROM testinglatest_json
+WHERE UID = old.UID
+END 
+DELIMITER $$;
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS testinglatestJsonTriggerUpdate $$
+CREATE TRIGGER testinglatestJsonTriggerUpdate
+AFTER UPDATE
+ON covid.testinglatest FOR EACH ROW
+BEGIN
+	UPDATE testinglatest_json 
+    SET 
+    data=JSON_OBJECT('UID', new.UID, 'Entity', new.Entity, 'Tested', new.Tested, 
+'ISO3', new.ISO3, 'Datee', new.Datee, 'Source_URL', new.Source_URL, 'Source_label', new.Source_label, 
+'Notes', new.Notes, 'Cumulative_total', new.Cumulative_total, 'Daily_change_in_cumulative_total', 
+new.Daily_change_in_cumulative_total, 'Cumulative_total_per_thousand', new.Cumulative_total_per_thousand, 
+'Daily_change_in_cumulative_total_per_thousand', new.Daily_change_in_cumulative_total_per_thousand)
+    WHERE UID=old.UID;
+	END $$
+DELIMITER ;
+
